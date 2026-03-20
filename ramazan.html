@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramazan Bayramı Kutlaması</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background:
+                radial-gradient(circle at top, #2d1040 0%, #180827 38%, #090511 100%);
+            background-size: 115% 115%;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            transition: background-position .18s ease-out;
+        }
+
+        .bg-blur {
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(70px);
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .blur-1 {
+            width: 340px;
+            height: 340px;
+            left: -80px;
+            top: -80px;
+            background: rgba(236, 72, 153, 0.18);
+        }
+
+        .blur-2 {
+            width: 380px;
+            height: 380px;
+            right: -70px;
+            top: 50px;
+            background: rgba(250, 204, 21, 0.10);
+        }
+
+        .blur-3 {
+            width: 280px;
+            height: 280px;
+            left: 35%;
+            bottom: -60px;
+            background: rgba(217, 70, 239, 0.12);
+        }
+
+        .stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.25;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.8);
+            }
+        }
+
+        .crescent-wrap {
+            position: fixed;
+            top: 22px;
+            right: 22px;
+            z-index: 30;
+            animation: floatMoon 6s ease-in-out infinite;
+        }
+
+        .crescent-orbit {
+            position: absolute;
+            inset: -14px;
+            border-radius: 50%;
+            border: 1px solid rgba(253, 224, 71, 0.16);
+            animation: moonWave 2.8s ease-out infinite;
+        }
+
+        .crescent-orbit::after {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 1px solid rgba(253, 224, 71, 0.08);
+            animation: moonWave 2.8s ease-out infinite 1.1s;
+        }
+
+        .crescent-svg {
+            width: 64px;
+            height: 64px;
+            position: relative;
+            filter: drop-shadow(0 0 14px rgba(253, 224, 71, 0.5));
+        }
+
+        .crescent-star {
+            animation: starPulse 2.8s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes starPulse {
+
+            0%,
+            100% {
+                opacity: .6;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes moonWave {
+            0% {
+                opacity: 0;
+                transform: scale(0.84);
+            }
+
+            22% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.22);
+            }
+        }
+
+        @keyframes floatMoon {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-4px) rotate(4deg);
+            }
+
+            75% {
+                transform: translateY(2px) rotate(-4deg);
+            }
+        }
+
+        .floating {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            bottom: -30px;
+            font-size: 18px;
+            opacity: 0;
+            animation-name: rise;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            will-change: transform, opacity;
+            transition: transform .16s ease-out, opacity .3s ease-out;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.22));
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translate3d(0, 0, 0) scale(0.65);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate3d(0, -110vh, 0) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 80;
+            animation: explode 1.1s ease-out forwards;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.25));
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate3d(0, 0, 0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate3d(var(--move-x), var(--move-y), 0) scale(1.4) rotate(var(--rotate));
+                opacity: 0;
+            }
+        }
+
+        .screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            z-index: 10;
+            transition: transform .18s ease-out;
+            will-change: transform;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 560px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 30px;
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+            padding: 32px;
+            animation: fadeUp .7s ease;
+        }
+
+        .card.hidden,
+        .celebration.hidden {
+            display: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 12px;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 25px;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            color: rgba(255, 255, 255, 0.68);
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        h1,
+        h2,
+        p {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 34px;
+            line-height: 1.1;
+        }
+
+        .desc {
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.8;
+            margin: 0 0 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 18px;
+            padding: 16px 18px;
+            font-size: 18px;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.36);
+        }
+
+        input:focus {
+            border-color: rgba(232, 121, 249, 0.7);
+            box-shadow: 0 0 0 3px rgba(232, 121, 249, 0.16);
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+            color: white;
+            font-weight: 700;
+        }
+
+        .primary-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 16px 20px;
+            border-radius: 18px;
+            background: linear-gradient(90deg, #ec4899, #d946ef, #f59e0b);
+            box-shadow: 0 12px 30px rgba(88, 28, 135, 0.35);
+            font-size: 18px;
+            transition: transform .2s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px) scale(1.01);
+        }
+
+        .celebration {
+            width: 100%;
+            max-width: 1100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 36px;
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+            padding: 34px;
+            animation: fadeScale .8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .celebration::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 58%);
+            pointer-events: none;
+        }
+
+        .celebration-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .message-title {
+            font-size: clamp(36px, 7vw, 86px);
+            line-height: 1.02;
+            font-weight: 900;
+            margin-top: 22px;
+            overflow-wrap: anywhere;
+        }
+
+        .name-gradient {
+            background: linear-gradient(90deg, #fde68a, #f9a8d4, #e879f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .message-text {
+            margin-top: 22px;
+            max-width: 700px;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: clamp(18px, 2vw, 28px);
+            line-height: 1.7;
+            min-height: 90px;
+        }
+
+        .message-text.typing::after,
+        .wish.typing::after {
+            content: "|";
+            display: inline-block;
+            margin-left: 3px;
+            animation: blinkCursor 0.8s infinite;
+            opacity: 0.85;
+        }
+
+        @keyframes blinkCursor {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            50.01%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .wishes {
+            margin-top: 28px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .wish {
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            padding: 16px 18px;
+            color: rgba(255, 255, 255, 0.86);
+            min-height: 58px;
+            animation: fadeUp .5s ease both;
+        }
+
+        .secondary-btn {
+            display: block;
+            margin: 26px auto 0;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 14px 20px;
+            font-size: 16px;
+        }
+
+        .tulip-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 360px;
+            animation: fadeUp .8s ease .35s both;
+            position: relative;
+        }
+
+        .tulip-glow {
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(244, 114, 182, 0.10);
+            filter: blur(38px);
+        }
+
+        .tulip-svg {
+            position: relative;
+            width: min(240px, 100%);
+            height: auto;
+            aspect-ratio: 240 / 340;
+            overflow: visible;
+            display: block;
+        }
+
+        .draw {
+            stroke-dasharray: var(--len);
+            stroke-dashoffset: var(--len);
+            animation: drawLine var(--dur) ease-in-out forwards;
+            animation-delay: var(--delay);
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .fill-petal {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center bottom;
+            animation: petalFill .85s ease-out forwards;
+            animation-delay: var(--delay);
+        }
+
+        .sway {
+            transform-box: fill-box;
+            transform-origin: center bottom;
+            animation: tulipSway 4.8s ease-in-out infinite;
+            animation-delay: 4.8s;
+        }
+
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes petalFill {
+            from {
+                opacity: 0;
+                transform: scale(0.88);
+            }
+
+            to {
+                opacity: 0.95;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes tulipSway {
+
+            0%,
+            100% {
+                transform: rotate(0deg) translateY(0);
+            }
+
+            25% {
+                transform: rotate(-1.6deg) translateY(1px);
+            }
+
+            50% {
+                transform: rotate(0.8deg) translateY(-1px);
+            }
+
+            75% {
+                transform: rotate(1.6deg) translateY(1px);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeScale {
+            from {
+                opacity: 0;
+                transform: scale(.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .screen {
+                padding: 18px;
+                align-items: flex-start;
+            }
+
+            .celebration-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .celebration {
+                padding: 24px;
+                border-radius: 28px;
+            }
+
+            .card {
+                padding: 26px;
+                border-radius: 26px;
+            }
+
+            .tulip-wrap {
+                min-height: 280px;
+                order: -1;
+            }
+
+            .header-row {
+                align-items: flex-start;
+            }
+
+            .badge {
+                font-size: 11px;
+                letter-spacing: .18em;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .screen {
+                padding: 14px;
+            }
+
+            .card,
+            .celebration {
+                padding: 18px;
+            }
+
+            .header-row {
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+
+            .icon-box {
+                width: 46px;
+                height: 46px;
+                border-radius: 15px;
+                font-size: 22px;
+            }
+
+            .eyebrow {
+                font-size: 10px;
+                letter-spacing: .18em;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .desc {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            input {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                font-size: 16px;
+                padding: 14px 18px;
+            }
+
+            .message-title {
+                margin-top: 16px;
+                font-size: clamp(30px, 12vw, 48px);
+            }
+
+            .message-text {
+                margin-top: 16px;
+                font-size: 16px;
+                line-height: 1.65;
+                min-height: 72px;
+            }
+
+            .wishes {
+                margin-top: 20px;
+                gap: 10px;
+            }
+
+            .wish {
+                padding: 14px 15px;
+                border-radius: 18px;
+                font-size: 14px;
+                min-height: 50px;
+            }
+
+            .tulip-wrap {
+                min-height: 220px;
+            }
+
+            .tulip-glow {
+                width: 180px;
+                height: 180px;
+                filter: blur(28px);
+            }
+
+            .tulip-svg {
+                width: min(180px, 78vw);
+            }
+
+            .crescent-wrap {
+                top: 14px;
+                right: 14px;
+                transform: scale(0.82);
+                transform-origin: top right;
+            }
+
+            .blur-1 {
+                width: 220px;
+                height: 220px;
+            }
+
+            .blur-2 {
+                width: 240px;
+                height: 240px;
+            }
+
+            .blur-3 {
+                width: 180px;
+                height: 180px;
+                left: 28%;
+            }
+
+            .float-item {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .screen {
+                padding: 10px;
+            }
+
+            .card,
+            .celebration {
+                padding: 14px;
+                border-radius: 22px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .message-title {
+                font-size: 28px;
+            }
+
+            .badge {
+                padding: 10px 14px;
+                font-size: 10px;
+                letter-spacing: .14em;
+            }
+
+            .tulip-svg {
+                width: min(160px, 76vw);
+            }
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 22px;
+        }
+
+        .capture-btn {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease;
+        }
+
+        .capture-mode .name-gradient {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: #f9a8d4 !important;
+        }
+
+        .capture-btn:hover {
+            transform: translateY(-1px) scale(1.01);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.10));
+        }
+
+        .capture-mode .draw,
+        .capture-mode .fill-petal,
+        .capture-mode .sway,
+        .capture-mode .float-item,
+        .capture-mode .star,
+        .capture-mode .particle,
+        .capture-mode .crescent-wrap,
+        .capture-mode .crescent-orbit,
+        .capture-mode .crescent-star {
+            animation: none !important;
+        }
+
+        .capture-mode .draw {
+            stroke-dashoffset: 0 !important;
+        }
+
+        .capture-mode .fill-petal {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
+        .capture-mode .tulip-glow {
+            filter: blur(20px) !important;
+        }
+
+        .personal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 13px;
+            letter-spacing: .03em;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .capture-note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.58);
+        }
+
+        .capture-mode .action-row {
+            display: none !important;
+        }
+
+        .capture-mode .capture-note {
+            display: none !important;
+        }
+
+        .capture-mode .personal-tag {
+            margin-top: 18px;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-blur blur-1"></div>
+    <div class="bg-blur blur-2"></div>
+    <div class="bg-blur blur-3"></div>
+
+    <div class="stars" id="stars"></div>
+    <div class="floating" id="floating"></div>
+
+    <div class="crescent-wrap">
+        <div class="crescent-orbit"></div>
+        <svg class="crescent-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="55" cy="50" r="28" fill="#fde047" />
+            <circle cx="65" cy="45" r="28" fill="#2d1040" />
+            <g class="crescent-star">
+                <polygon points="78,18 82,26 90,28 82,30 78,38 74,30 66,28 74,26" fill="#fde68a" />
+            </g>
+        </svg>
+    </div>
+
+    <main class="screen">
+        <section class="card" id="welcomeCard">
+            <div class="header-row">
+                <div class="icon-box">🌙</div>
+                <div>
+                    <p class="eyebrow">Ramazan Bayramı</p>
+                    <h1>Sana bir sürpriz hazırladım</h1>
+                </div>
+            </div>
+
+            <p class="desc">
+                Devam etmeden önce adını yaz.
+            </p>
+
+            <label for="nameInput">Adın</label>
+            <input id="nameInput" type="text" placeholder="Örneğin: Berkay" />
+            <button class="primary-btn" id="startBtn">Mesajımı Aç→</button>
+        </section>
+
+        <section class="celebration hidden" id="celebrationCard">
+            <div class="badge">✨ Bayramın Kutlu Olsun</div>
+
+            <div class="celebration-grid">
+                <div>
+                    <h2 class="message-title">İyi Bayramlar <span class="name-gradient" id="displayName">Dostum</span>
+                    </h2>
+
+                    <p class="message-text" id="messageText"></p>
+
+                    <div class="personal-tag" id="personalTag">✨ Senin için tasarlandı</div>
+                    <p class="capture-note">İstersen bu anı ekran görüntüsü olarak kaydedebilirsin.</p>
+
+                    <div class="wishes" id="wishesContainer"></div>
+                </div>
+
+                <div class="tulip-wrap">
+                    <div class="tulip-glow"></div>
+                    <svg class="tulip-svg" viewBox="0 0 260 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="stemGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#86efac" />
+                                <stop offset="100%" stop-color="#22c55e" />
+                            </linearGradient>
+                            <linearGradient id="petalGradient" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#fbcfe8" />
+                                <stop offset="100%" stop-color="#f472b6" />
+                            </linearGradient>
+                        </defs>
+
+                        <g class="sway">
+                            <path class="draw" style="--len: 150; --dur: 1s; --delay: .15s;"
+                                d="M60 340 Q130 356 200 340" stroke="#4ade80" stroke-width="3" stroke-linecap="round" />
+                            <path class="draw" style="--len: 95; --dur: .75s; --delay: .48s;"
+                                d="M130 338 Q126 346 122 352" stroke="#4ade80" stroke-width="2.2"
+                                stroke-linecap="round" />
+                            <path class="draw" style="--len: 190; --dur: 1.45s; --delay: .78s;"
+                                d="M130 338 C129 305 129 268 130 232 C131 215 131 205 130 200"
+                                stroke="url(#stemGradient)" stroke-width="6" stroke-linecap="round" />
+
+                            <path class="draw" style="--len: 178; --dur: 1.1s; --delay: 1.5s;"
+                                d="M129 266 C111 262 96 252 85 236 C77 224 76 208 86 196 C102 201 116 214 129 238"
+                                stroke="url(#stemGradient)" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path class="draw" style="--len: 174; --dur: 1.1s; --delay: 1.82s;"
+                                d="M131 248 C148 240 162 228 173 212 C181 200 183 185 176 173 C160 178 145 191 131 220"
+                                stroke="url(#stemGradient)" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+
+                            <path class="draw" style="--len: 165; --dur: 1.05s; --delay: 2.42s;"
+                                d="M130 200 C120 168 121 132 130 96 C139 132 140 168 130 200"
+                                stroke="url(#petalGradient)" stroke-width="4.2" stroke-linecap="round"
+                                stroke-linejoin="round" fill="transparent" />
+                            <path class="draw" style="--len: 155; --dur: 1.0s; --delay: 2.74s;"
+                                d="M130 200 C110 178 101 145 112 108 C121 128 126 160 130 200"
+                                stroke="url(#petalGradient)" stroke-width="4.2" stroke-linecap="round"
+                                stroke-linejoin="round" fill="transparent" />
+                            <path class="draw" style="--len: 155; --dur: 1.0s; --delay: 3.02s;"
+                                d="M130 200 C150 178 159 145 148 108 C139 128 134 160 130 200"
+                                stroke="url(#petalGradient)" stroke-width="4.2" stroke-linecap="round"
+                                stroke-linejoin="round" fill="transparent" />
+
+                            <path class="fill-petal" style="--delay: 3.34s;"
+                                d="M130 200 C120 168 121 132 130 96 C139 132 140 168 130 200"
+                                fill="rgba(244,114,182,0.94)" />
+                            <path class="fill-petal" style="--delay: 3.58s;"
+                                d="M130 200 C110 178 101 145 112 108 C121 128 126 160 130 200"
+                                fill="rgba(249,168,212,0.90)" />
+                            <path class="fill-petal" style="--delay: 3.82s;"
+                                d="M130 200 C150 178 159 145 148 108 C139 128 134 160 130 200"
+                                fill="rgba(249,168,212,0.90)" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button class="secondary-btn" id="resetBtn">Baştan Başlat</button>
+                <button class="capture-btn" id="captureBtn">📸 Ekran Görüntüsü Al</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const nameInput = document.getElementById('nameInput');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const displayName = document.getElementById('displayName');
+        const welcomeCard = document.getElementById('welcomeCard');
+        const celebrationCard = document.getElementById('celebrationCard');
+        const floating = document.getElementById('floating');
+        const stars = document.getElementById('stars');
+        const messageText = document.getElementById('messageText');
+        const wishesContainer = document.getElementById('wishesContainer');
+        const personalTag = document.getElementById('personalTag');
+        const captureBtn = document.getElementById('captureBtn');
+        const screen = document.querySelector('.screen');
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        const messagePool = [
+            "Sevdiklerinle birlikte sağlık, huzur ve bol kahkahalı bir Ramazan Bayramı geçirmeni dilerim.",
+            "Bu bayram gönlün ferahlıkla, evin neşeyle, kalbin umutla dolsun.",
+            "Bayramın sana huzur, motivasyon ve yepyeni başlangıçlar getirsin.",
+            "Tüm yorgunluğunu unutturacak, sana iyi gelecek bir bayram olsun.",
+            "Umarım bu bayram hayatına güzel sürprizler ve bolca gülümseme getirir.",
+            "Kalbinin en güzel dileklerinin gerçekleştiği bir bayram geçirmeni dilerim.",
+            "Sevdiklerinle birlikte bol muhabbetli, bol tatlılı bir bayram olsun.",
+            "Bu bayram sana sadece huzur değil, aynı zamanda bol enerji ve motivasyon getirsin.",
+            "Kafanı dinlediğin, kalbini toparladığın, kendine iyi geldiğin bir bayram olsun.",
+            "Yoğun geçen günlerin ardından sana nefes gibi gelecek bir bayram diliyorum.",
+            "Hayatının en huzurlu ve en keyifli bayramlarından biri olsun.",
+            "Sana iyi gelen her şey bu bayram katlanarak çoğalsın.",
+            "Dilerim bu bayram sadece bir mola değil, yeni bir başlangıç olur senin için."
+        ];
+
+        const wishesPool = [
+            "Kalbine huzur dolsun",
+            "Sofran bereketle dolsun",
+            "Yüzünden gülümseme eksik olmasın",
+            "Vizelerin ve finallerin düşündüğünden daha iyi geçsin",
+            "Not ortalaman uçuşa geçsin",
+            "Bütünleme derdin hiç olmasın",
+            "Projelerin son gün paniksiz bitsin",
+            "Sabah derslerine uyanmak kolaylaşsın (en azından biraz)",
+            "Kahven hep sıcak, motivasyonun hep yüksek olsun",
+            "Hayallerin tek tek gerçekleşsin",
+            "Şansın hep yanında olsun",
+            "Staj başvuruların kabul olsun",
+            "Emeklerinin karşılığını fazlasıyla al",
+            "Güzel haberler ardı ardına gelsin",
+            "Uykusuz gecelerin yerini huzurlu sabahlar alsın",
+            "Gönlün hep ferah olsun",
+            "Mutluluk kapını sık sık çalsın",
+            "Hayat sana sürpriz güzellikler getirsin",
+            "Sevdiklerinle nice güzel bayramların olsun"
+        ];
+
+        function createStars() {
+            for (let i = 0; i < 26; i++) {
+                const star = document.createElement('span');
+                star.className = 'star';
+                star.style.left = ((i * 13) % 100) + '%';
+                star.style.top = ((i * 19) % 100) + '%';
+                star.style.animationDuration = (2.2 + (i % 4)) + 's';
+                star.style.animationDelay = (i * 0.12) + 's';
+                stars.appendChild(star);
+            }
+        }
+
+        function createFloatingItems() {
+            const icons = [
+                "✨", "🌙", "⭐", "💫", "🌸", "🕊️",
+                "🎉", "💖", "🌟", "🫶", "📚", "☕", "🎓"
+            ];
+
+            for (let i = 0; i < 16; i++) {
+                const item = document.createElement('span');
+                item.className = 'float-item';
+                item.textContent = icons[Math.floor(Math.random() * icons.length)];
+                item.style.left = Math.random() * 100 + '%';
+                item.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                item.style.animationDelay = (Math.random() * 4) + 's';
+                item.style.fontSize = (Math.random() * 20 + 12) + 'px';
+                item.style.opacity = Math.random() * 0.45 + 0.2;
+                item.dataset.floatX = '0';
+                item.dataset.floatY = '0';
+
+                if (Math.random() < 0.08) {
+                    item.textContent = '🌙';
+                    item.style.fontSize = '30px';
+                    item.style.opacity = '0.8';
+                }
+
+                floating.appendChild(item);
+            }
+        }
+
+        function animateFloatingItems() {
+            const items = document.querySelectorAll('.float-item');
+            const maxDistance = 220;
+
+            items.forEach((item) => {
+                const rect = item.getBoundingClientRect();
+                const itemX = rect.left + rect.width / 2;
+                const itemY = rect.top + rect.height / 2;
+                const dx = mouseX - itemX;
+                const dy = mouseY - itemY;
+                const distance = Math.hypot(dx, dy);
+
+                let moveX = 0;
+                let moveY = 0;
+                let scale = 1;
+
+                if (distance < maxDistance && distance > 0.001) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    moveX = -(dx / distance) * force * 16;
+                    moveY = -(dy / distance) * force * 16;
+                    scale = 1 + force * 0.16;
+                }
+
+                item.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
+            });
+
+            requestAnimationFrame(animateFloatingItems);
+        }
+
+        function createParticleExplosion(x, y) {
+            const particles = ['✨', '💫', '⭐', '🌸', '💖', '🕊️', '🌙'];
+            const count = 18;
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('span');
+                const angle = (Math.PI * 2 * i) / count;
+                const distance = Math.random() * 90 + 38;
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+
+                particle.className = 'particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.fontSize = (Math.random() * 14 + 12) + 'px';
+                particle.style.setProperty('--move-x', `${moveX}px`);
+                particle.style.setProperty('--move-y', `${moveY}px`);
+                particle.style.setProperty('--rotate', `${Math.random() * 220 - 110}deg`);
+
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1150);
+            }
+        }
+
+        function enableParallax() {
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
+                const yPercent = (e.clientY / window.innerHeight - 0.5) * 2;
+
+                document.body.style.backgroundPosition = `${50 + xPercent * 2}% ${50 + yPercent * 2}%`;
+                if (screen) {
+                    screen.style.transform = `translate(${xPercent * 5}px, ${yPercent * 5}px)`;
+                }
+            });
+        }
+
+        function spawnFloatingContinuously() {
+            const icons = ['✨', '🌙', '💫', '🌸', '🕊️', '🎉', '💖', '🌟'];
+
+            setInterval(() => {
+                const item = document.createElement('span');
+                item.className = 'float-item';
+                item.textContent = icons[Math.floor(Math.random() * icons.length)];
+                item.style.left = Math.random() * 100 + '%';
+                item.style.fontSize = (Math.random() * 18 + 12) + 'px';
+                item.style.opacity = Math.random() * 0.45 + 0.18;
+                item.style.animationDuration = (Math.random() * 5 + 9) + 's';
+                item.style.animationDelay = '0s';
+
+                floating.appendChild(item);
+                setTimeout(() => item.remove(), 15000);
+            }, 1200);
+        }
+
+        function restartTulipAnimation() {
+            const svg = celebrationCard.querySelector('.tulip-svg');
+            const clone = svg.cloneNode(true);
+            svg.parentNode.replaceChild(clone, svg);
+        }
+
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function getRandomWishes(count = 4) {
+            return shuffleArray(wishesPool).slice(0, count);
+        }
+
+        function typeWriter(element, text, speed = 30, callback = null) {
+            element.textContent = "";
+            element.classList.add("typing");
+
+            let i = 0;
+
+            function write() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(write, speed);
+                } else {
+                    element.classList.remove("typing");
+                    if (callback) callback();
+                }
+            }
+
+            write();
+        }
+
+        function typeWishes(wishes, container) {
+            container.innerHTML = "";
+
+            wishes.forEach((wish, index) => {
+                const div = document.createElement("div");
+                div.className = "wish";
+                container.appendChild(div);
+
+                setTimeout(() => {
+                    typeWriter(div, wish, 22);
+                }, index * 750);
+            });
+        }
+        function startCelebration() {
+            const name = nameInput.value.trim() || 'Dostum';
+            displayName.textContent = name;
+            personalTag.textContent = `✨ ${name} için tasarlandı`;
+
+            const randomMessage = getRandomItem(messagePool);
+            const randomWishes = getRandomWishes(4);
+
+            messageText.textContent = "";
+            wishesContainer.innerHTML = "";
+
+            welcomeCard.classList.add('hidden');
+            celebrationCard.classList.remove('hidden');
+            restartTulipAnimation();
+
+            typeWriter(messageText, randomMessage, 28, () => {
+                typeWishes(randomWishes, wishesContainer);
+            });
+        }
+
+        function resetCelebration() {
+            celebrationCard.classList.add('hidden');
+            welcomeCard.classList.remove('hidden');
+            nameInput.focus();
+            nameInput.select();
+        }
+
+        startBtn.addEventListener('click', startCelebration);
+
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') startCelebration();
+        });
+
+        resetBtn.addEventListener('click', resetCelebration);
+        captureBtn.addEventListener('click', async () => {
+            const target = document.getElementById('celebrationCard');
+
+            try {
+                captureBtn.textContent = 'Hazırlanıyor...';
+                captureBtn.disabled = true;
+
+                target.classList.add('capture-mode');
+                await new Promise(resolve => setTimeout(resolve, 250));
+
+                const dataUrl = await htmlToImage.toPng(target, {
+                    cacheBust: true,
+                    pixelRatio: 2
+                });
+
+                const link = document.createElement('a');
+                const currentName = (nameInput.value.trim() || 'dostum')
+                    .toLowerCase()
+                    .replace(/\s+/g, '-');
+
+                link.download = `bayram-mesaji-${currentName}.png`;
+                link.href = dataUrl;
+                link.click();
+            } catch (err) {
+                console.error(err);
+                alert('Ekran görüntüsü alınırken hata oluştu.');
+            } finally {
+                target.classList.remove('capture-mode');
+                captureBtn.textContent = '📸 Ekran Görüntüsü Al';
+                captureBtn.disabled = false;
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        document.addEventListener('click', (e) => {
+            createParticleExplosion(e.clientX, e.clientY);
+        });
+
+        createStars();
+        createFloatingItems();
+        animateFloatingItems();
+        enableParallax();
+        spawnFloatingContinuously();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+</body>
+
+</html>
